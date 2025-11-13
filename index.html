@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open YouTube Channel</title>
+</head>
+<body>
+<p>جارٍ التحويل... إذا ما صار شي اضغط <a id="link" href="#">هنا</a></p>
+
+<script>
+const ytLink = "https://youtube.com/@59x5?si=D9tg-xKyCm0MSvZ4";
+const iosScheme = "youtube://www.youtube.com/@59x5";
+const androidIntent = "intent://www.youtube.com/@59x5#Intent;package=com.google.android.youtube;scheme=https;end";
+
+document.getElementById("link").href = ytLink;
+
+const ua = navigator.userAgent || "";
+const isAndroid = /android/i.test(ua);
+const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+
+function openLink(url, fallback, timeout=1000){
+    const start = Date.now();
+    window.location = url;
+    setTimeout(function(){
+        if(Date.now() - start < timeout + 200) window.location = fallback;
+    }, timeout);
+}
+
+if(isAndroid) openLink(androidIntent, ytLink, 1200);
+else if(isIOS) openLink(iosScheme, ytLink, 1200);
+else window.location = ytLink;
+</script>
+</body>
+</html>
